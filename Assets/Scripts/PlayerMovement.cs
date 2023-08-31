@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 5f;
     public float rotationSpeed = 50f;
     public float jumpForce = 8f; // Ajusta la fuerza de salto desde el inspector
+    public Transform groundCheck;
+    public Animator animator;
 
     private Rigidbody rb;
 
@@ -24,13 +26,12 @@ public class PlayerMovement : MonoBehaviour
         movementDirection.Normalize();
 
         // Movimiento
-        Vector3 movement = movementDirection * speed * Time.deltaTime;
-        rb.MovePosition(rb.position + movement);
+        transform.position += movementDirection * speed * Time.deltaTime; ;
+        
+        // rb.MovePosition(rb.position + movement);
 
         // Rotación
-        Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
-        Quaternion newRotation = Quaternion.RotateTowards(rb.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        rb.MoveRotation(newRotation);
+        Quaternion targetRotation = Quaternion.LookRotation(movementDirection);;
 
         // Salto
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
@@ -38,10 +39,11 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             Debug.Log("Jumping");
         }
+
     }
 
     private bool IsGrounded()
     {
-        return Physics.Raycast(transform.position, Vector3.down, 0.1f);
+        return Physics.Raycast(groundCheck.position, Vector3.down, 0.1f);
     }
 }

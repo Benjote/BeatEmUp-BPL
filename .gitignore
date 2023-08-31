@@ -91,5 +91,5 @@ sysinfo.txt
 # My Ignore Rules
 # ===========================
 Library
-Assets\Resources
-Assets\Resources\*
+Assets/Resources
+Assets/Resources/*
